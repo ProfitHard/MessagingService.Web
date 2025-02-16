@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace MessagingService.Web.Controllers;
 
@@ -22,16 +23,16 @@ public class MessageController : ControllerBase
     }
 
     [HttpPost("send")]
-    public async Task<IActionResult> SendMessage(Message message)
+    public async Task<IActionResult> SendMessage([FromBody] Message message) // Add [FromBody]
     {
-        if (message is null)
+        if (!ModelState.IsValid)
         {
-            return BadRequest("Message cannot be null.");
+            return BadRequest(ModelState); // Return validation errors
         }
 
         await _messageService.AddMessageAsync(message);
         var jsonMessage = JsonSerializer.Serialize(message);
-        await MessagingService.Web.MWebSocketManager.BroadcastMessage(jsonMessage);
+        await MWebSocketManager.BroadcastMessage(jsonMessage); // Use the correct class name
 
         return Ok();
     }

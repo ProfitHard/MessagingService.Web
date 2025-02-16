@@ -1,6 +1,8 @@
 using System.Net.WebSockets;
 using MessagingService.Web.Data;
 using MessagingService.Web.Services;
+using FluentValidation.AspNetCore;  // Make sure this is included
+using MessagingService.Web.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,13 @@ builder.Services.AddTransient<IMessageRepository>(provider =>
     var configuration = provider.GetRequiredService<IConfiguration>();
     return new MessageRepository(configuration, logger);
 });
+builder.Services.AddScoped<MessageService>();
+builder.Services.AddControllers()
+    .AddFluentValidation(fv =>
+    {
+        fv.RegisterValidatorsFromAssemblyContaining<MessageValidator>();
+    });
+
 builder.Services.AddScoped<MessageService>();
 var app = builder.Build();
 
