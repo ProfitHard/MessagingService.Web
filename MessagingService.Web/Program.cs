@@ -3,6 +3,9 @@ using MessagingService.Web.Data;
 using MessagingService.Web.Services;
 using FluentValidation.AspNetCore;  // Make sure this is included
 using MessagingService.Web.Validators;
+using Asp.Versioning;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +30,28 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddScoped<MessageService>();
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1.0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+    options.ApiVersionReader = new UrlSegmentApiVersionReader(); // Версионирование через сегмент URL
+    //options.ApiVersionReader = new HeaderApiVersionReader("X-Api-Version"); // Версионирование через заголовок
+})
+.AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
+
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.OperationFilter<AddApiVersionParameter>(); // adds the version parameter
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

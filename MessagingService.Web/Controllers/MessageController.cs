@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
+using Asp.Versioning;
 
 namespace MessagingService.Web.Controllers;
 
 [ApiController]
+[ApiVersion("1.0")] // Version 1.0
 [Route("api/[controller]")]
 public class MessageController : ControllerBase
 {
