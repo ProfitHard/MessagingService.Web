@@ -4,6 +4,7 @@ using MessagingService.Web.Services;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace MessagingService.Web.Controllers;
 
@@ -23,35 +24,22 @@ public class MessageController : ControllerBase
     [HttpPost("send")]
     public async Task<IActionResult> SendMessage(Message message)
     {
-        if (string.IsNullOrEmpty(message.Text) || message.Text.Length > 128)
+        if (message is null)
         {
-            return BadRequest("Message text must be between 1 and 128 characters.");
+            return BadRequest("Message cannot be null.");
         }
 
-        try
-        {
-            await _messageService.AddMessageAsync(message);
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error sending message: {ErrorMessage}", ex.Message);
-            return StatusCode(500, "Internal server error");
-        }
+        await _messageService.AddMessageAsync(message);
+        var jsonMessage = JsonSerializer.Serialize(message);
+        await MessagingService.Web.MWebSocketManager.BroadcastMessage(jsonMessage);
+
+        return Ok();
     }
 
     [HttpGet("history")]
     public async Task<IActionResult> GetMessageHistory(DateTime startTime, DateTime endTime)
     {
-        try
-        {
-            var messages = await _messageService.GetMessagesAsync(startTime, endTime);
-            return Ok(messages);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting message history: {ErrorMessage}", ex.Message);
-            return StatusCode(500, "Internal server error");
-        }
+        var messages = await _messageService.GetMessagesAsync(startTime, endTime);
+        return Ok(messages);
     }
 }
