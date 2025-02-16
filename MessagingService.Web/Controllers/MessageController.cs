@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Asp.Versioning;
+using System.Collections.Generic;
 
 namespace MessagingService.Web.Controllers;
 
@@ -40,9 +41,8 @@ public class MessageController : ControllerBase
     }
 
     [HttpGet("history")]
-    public async Task<IActionResult> GetMessageHistory(DateTime startTime, DateTime endTime)
+    public IAsyncEnumerable<Message> GetMessageHistory(DateTime startTime, DateTime endTime)
     {
-        var messages = await _messageService.GetMessagesAsync(startTime, endTime);
-        return Ok(messages);
+        return _messageService.GetMessagesAsync(startTime, endTime);
     }
 }

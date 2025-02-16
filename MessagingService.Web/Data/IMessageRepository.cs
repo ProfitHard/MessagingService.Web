@@ -4,6 +4,6 @@ namespace MessagingService.Web.Data;
 
 public interface IMessageRepository
 {
-    Task<int> AddMessageAsync(Message message);
-    Task<IEnumerable<Message>> GetMessagesAsync(DateTime startTime, DateTime endTime);
+    IAsyncEnumerable<Message> GetMessagesAsync(DateTime startTime, DateTime endTime);
+    Task AddMessageAsync(Message message);
 }

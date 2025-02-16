@@ -37,7 +37,7 @@ public class MessageRepository(IConfiguration configuration, ILogger<MessageRepo
         }
     }
 
-    public async Task<IEnumerable<Message>> GetMessagesAsync(DateTime startTime, DateTime endTime)
+    public async Task<IAsyncEnumerable<Message>> GetMessagesAsync(DateTime startTime, DateTime endTime)
     {
         var messages = new List<Message>();
         try
@@ -68,6 +68,16 @@ public class MessageRepository(IConfiguration configuration, ILogger<MessageRepo
             _logger.LogError(ex, "Error getting messages: {ErrorMessage}", ex.Message);
             throw;
         }
-        return messages;
+        return (IAsyncEnumerable<Message>)messages;
+    }
+
+    Task IMessageRepository.AddMessageAsync(Message message)
+    {
+        throw new NotImplementedException();
+    }
+
+    IAsyncEnumerable<Message> IMessageRepository.GetMessagesAsync(DateTime startTime, DateTime endTime)
+    {
+        throw new NotImplementedException();
     }
 }
