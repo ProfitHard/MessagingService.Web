@@ -7,7 +7,7 @@ public class MessageValidator : AbstractValidator<Message>
 {
     public MessageValidator()
     {
-        RuleFor(m => m.Id).NotEmpty().WithMessage("Sender is required.");
+        RuleFor(m => m.Id).NotEqual(0).WithMessage("Id is required.");
         RuleFor(m => m.Text).NotEmpty().WithMessage("Content is required.").MaximumLength(500);
         RuleFor(m => m.Timestamp).NotEmpty().WithMessage("Timestamp is required.");
     }

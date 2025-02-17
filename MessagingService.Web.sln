@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessagingService.Web", "MessagingService.Web\MessagingService.Web.csproj", "{5BC6AF6C-1B0A-4D3E-83D1-D26EFAB32BE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessagingService.Web", "MessagingService.Web\MessagingService.Web.csproj", "{5BC6AF6C-1B0A-4D3E-83D1-D26EFAB32BE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessagingService.Web.Tests", "MessagingService.Web.Tests\MessagingService.Web.Tests.csproj", "{63DADBB8-D346-496C-BEB5-8CB15F349006}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{5BC6AF6C-1B0A-4D3E-83D1-D26EFAB32BE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BC6AF6C-1B0A-4D3E-83D1-D26EFAB32BE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BC6AF6C-1B0A-4D3E-83D1-D26EFAB32BE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63DADBB8-D346-496C-BEB5-8CB15F349006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63DADBB8-D346-496C-BEB5-8CB15F349006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63DADBB8-D346-496C-BEB5-8CB15F349006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63DADBB8-D346-496C-BEB5-8CB15F349006}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
